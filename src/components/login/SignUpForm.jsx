@@ -6,7 +6,7 @@ import Button from './Button'
 import { useForm } from 'react-hook-form'
 import { useUserStore } from '../../store/userStore'
 
-const RightLayout = () => {
+const SignUpForm = () => {
 
   const {
     register,
@@ -24,13 +24,13 @@ const RightLayout = () => {
       if(isLoggedin){
         navigator('/profile')
       }
-    }, [])
+    }, [isLoggedin])
 
     const handleFormSubmit = async (data) => {
       try {
         console.log(data)
 
-      const res = await fetch("/user/signup", {
+      const res = await fetch("/user/login", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
@@ -40,11 +40,10 @@ const RightLayout = () => {
       });
 
       const resData = await res.json();
-      if(res.status === 201 ){
+      if(res.status === 200 ){
 
         localStorage.setItem('token', resData.token);
         setIsLoggedin(true)
-        navigator('/profile?edit=true&firstSetup=true');
       }
 
       console.log(resData);
@@ -59,23 +58,19 @@ const RightLayout = () => {
         <h1 className='text-2xl font-bold py-2'> Sign up to Dribble </h1>
         {
           errors && <ul className='text-rose-500 text-sm font-bold list-disc pl-4 py-2'>
-            {errors.name && <li>{errors.name.message}</li>}
+
             {errors.username && <li>{errors.username.message}</li>}
-            {errors.email && <li>{errors.email.message}</li>}
+
             {errors.password && <li>{errors.password.message}</li>}
             {errors.tc && <li>{errors.tc.message}</li>}
           </ul>
         }
-        <div className='text-right'>Already a member? <Link className='text-blue-500' to={'/signin'}> Sign In</Link></div>
+        <div className='text-right'>Dont have an account? <Link className='text-blue-500' to={'/register'}> Sign Up </Link></div>
         <form className='py-4' onSubmit={handleSubmit(handleFormSubmit)}>
-          <div className='grid grid-cols-2 gap-x-4 py-2'>
-
-            <Input label="Name" id="name" register={register} isError={errors?.name && errors.name} isRequired />
-            <Input label="Username" id="username" register={register} isError={errors?.username && errors.username} isRequired />
-          </div>
+     
           <div className=' py-2'>
 
-            <Input type="email" label="Email" id="email" register={register} isError={errors?.email && errors.email} isRequired />
+            <Input type="username" label="username" id="username" register={register} isError={errors?.username && errors.username} isRequired />
           </div>
           <div className=' py-2'>
 
@@ -84,11 +79,11 @@ const RightLayout = () => {
           <div className=' my-2 flex gap-2 items-start'>
 
             <input className='self-start min-w-6' id="tc" type="checkbox" {...register('tc', { required: "Please select terms and conditions check."})}  />
-            <p className='text-sm'>By creating account with us you aggree to our <span className='text-blue-500 cursor-pointer'>Terms of service</span> and <span className='text-blue-500 cursor-pointer'>Privacy and Policies</span></p>
+            <p className='text-sm'>By logging in with us you aggree to our <span className='text-blue-500 cursor-pointer'>Terms of service</span> and <span className='text-blue-500 cursor-pointer'>Privacy and Policies</span></p>
           </div>
           <div className=' py-2 flex gap-2 items-start'>
 
-            <Button label="Create Account" type="submit" />
+            <Button label="Login" type="submit" />
 
           </div>
         </form>
@@ -98,4 +93,4 @@ const RightLayout = () => {
   )
 }
 
-export default RightLayout
+export default SignUpForm

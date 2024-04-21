@@ -9,7 +9,7 @@ export const useUserStore = create((set) => ({
         location: "",
 
     },
-    isLoggedin: false,
+    isLoggedin: localStorage.getItem('token') !== null ? true : false,
     setUser: (user) => set({ user }),
     setIsLoggedin: (isLoggedin) => set({ isLoggedin }),
 }))

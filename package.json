@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080/api",
   "dependencies": {
     "@cloudinary/url-gen": "^1.19.0",
     "@testing-library/jest-dom": "^5.17.0",

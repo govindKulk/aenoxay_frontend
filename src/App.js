@@ -10,7 +10,7 @@ function App() {
   const navigate = useNavigate();
   useEffect(() => {
     if(!isLoggedin){
-      navigate('/login')
+      navigate('/signin')
     }
   }, [])
   return (

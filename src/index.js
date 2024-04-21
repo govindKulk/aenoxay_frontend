@@ -3,31 +3,67 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './styles.css';
 
-import {createBrowserRouter, RouterProvider, useParams} from 'react-router-dom';
-import Login from './components/login/Login';
+
+
+import { createBrowserRouter, Outlet, RouterProvider, useParams } from 'react-router-dom';
+
 import Logo from './components/Logo';
 import EmailVerification from './components/EmailVerification';
 import ProfileScreen from './components/profile/ProfileScreen';
-
+import SignIn from './components/login/SignIn';
+import VerificationPage from './components/VerificationPage';
+import { useUserStore } from './store/userStore';
+import Logout from './components/profile/Logout';
+import Navbar from './components/Navbar';
+import Register from './components/login/Register';
+const Root = ({
+  children
+}) => {
+  return (
+    <div>
+      <Navbar />
+      <Outlet/>
+    </div>
+  )
+}
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
-    errorElement: <div className='bg-red-100/30 font-bold text-black text-3xl flex justify-center items-center min-h-screen flex-col '>Page Not Found <br/> <p className='text-4xl font-bold text-black/50'> 404 </p> </div>
-  },
-  {
-    path: '/login',
-    element: <Login/>,
+    element: <Root/>,
+    children: [
 
-  },
-  {
-    path: './verify-email',
-    element: <EmailVerification/>
-  },
-  {
-    path: '/profile',
-    element: <ProfileScreen/>
+
+      {
+        path: '/',
+        element: <App />,
+    
+      },
+      {
+        path: '/register',
+        element: <Register />,
+    
+      },
+      {
+        path: '/signin',
+        element: <SignIn />,
+    
+      },
+      {
+        path: '/verify/:id',
+        element: <EmailVerification />
+      },
+      {
+        path: '/verification_page',
+        element: <VerificationPage />
+      },
+      {
+        path: '/profile',
+        element: <ProfileScreen />
+      }
+    ],
+
   }
+  
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -35,8 +71,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
+    <RouterProvider router={router}>
 
-    <RouterProvider router={router}/>
+
+    </RouterProvider>
   </React.StrictMode>
 );
 

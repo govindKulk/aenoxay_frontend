@@ -10,4 +10,4 @@ const cloudinary = new Cloudinary({
     },
   });
 
-export default Cloudinary;
+export default cloudinary;
